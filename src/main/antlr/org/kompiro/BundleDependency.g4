@@ -1,7 +1,7 @@
 grammar BundleDependency;
 
 @header {
-    package org.kompiro;
+package org.kompiro;
 }
 
 bundles : bundle (',' bundle)*;
@@ -12,5 +12,8 @@ bundle_version : 'bundle-version="' version_range '"';
 version_range : (('[' | '(') VERSION ',' VERSION (')' | ']'))
 | VERSION  ;
 VERSION : ([0-9'.'])+ ;
-resolution : 'resolution:=optional';
-visibility : 'visibility:=reexport';
+assign : ':=';
+resolution : 'resolution' assign optional;
+optional : 'optional';
+visibility : 'visibility' assign reexport;
+reexport : 'reexport';
