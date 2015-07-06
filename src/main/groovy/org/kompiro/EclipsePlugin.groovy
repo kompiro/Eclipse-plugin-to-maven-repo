@@ -10,9 +10,9 @@ import java.util.jar.JarFile
 /**
  * Created by kompiro on 2015/07/06.
  */
+@ToString
 class EclipsePlugin {
 
-    @ToString
     class Require {
 
         String name
@@ -23,13 +23,16 @@ class EclipsePlugin {
             this.version = version
         }
 
+        @Override
+        String toString() {
+            return "name: $name, version: $version"
+        }
     }
 
-    Path pluginPath
     String name
     String version
     List<Require> dependencies = [];
-
+    Path pluginPath
 
     EclipsePlugin(Path pluginPath){
         this.pluginPath = pluginPath
@@ -40,6 +43,18 @@ class EclipsePlugin {
         this.version = main.getValue("Bundle-Version")
         def depends = main.getValue("Require-Bundle")
         parseDependencies(depends)
+
+    }
+
+    def binding() {
+        def binding_dependencies = []
+        dependencies.each {
+            binding_dependencies.add([
+                    name: it.name,
+                    version: it.version
+            ])
+        }
+        return [name: name, version: version, dependencies: binding_dependencies]
     }
 
     def parseDependencies(String depends) {

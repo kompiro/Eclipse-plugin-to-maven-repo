@@ -26,4 +26,11 @@ class EclipsePluginTest extends spock.lang.Specification {
             println it
         }
     }
+
+    def "binding" (){
+        expect:
+        sut.binding().each {
+            println "$it.key : $it.value"
+        }
+    }
 }
