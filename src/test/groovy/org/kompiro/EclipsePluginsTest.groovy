@@ -4,13 +4,16 @@ package org.kompiro
  * Created by kompiro on 2015/07/06.
  */
 class EclipsePluginsTest extends spock.lang.Specification {
+
     def sut = new EclipsePlugins(EclipsePluginDeployer.ECLIPCE_BASE)
 
     def "valid path has plugins directories"() {
+        expect:
         sut.valid == true
     }
 
-    def "list()"() {
+    def "got plugins list."() {
+        expect:
         sut.list().size() != 0
     }
 
