@@ -6,6 +6,19 @@ repositories {
   jcenter()
 }
 
+generateGrammarSource {
+  outputDirectory = file('src/main/gen')
+}
+
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/main/gen'
+    }
+  }
+}
+
 dependencies {
   compile 'org.codehaus.groovy:groovy-all:2.3.10'
   testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
