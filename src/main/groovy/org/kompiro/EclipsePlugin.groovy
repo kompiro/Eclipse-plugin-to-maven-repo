@@ -13,6 +13,7 @@ import java.util.jar.JarFile
 @ToString
 class EclipsePlugin {
 
+    @ToString
     class Require {
 
         String name
@@ -23,10 +24,6 @@ class EclipsePlugin {
             this.version = version
         }
 
-        @Override
-        String toString() {
-            return "name: $name, version: $version"
-        }
     }
 
     String name
@@ -47,12 +44,11 @@ class EclipsePlugin {
     }
 
     def binding() {
-        def binding_dependencies = []
-        dependencies.each {
-            binding_dependencies.add([
-                    name: it.name,
-                    version: it.version
-            ])
+        def binding_dependencies = dependencies.collect {
+            [
+                name   : it.name,
+                version: it.version
+            ]
         }
         return [name: name, version: version, dependencies: binding_dependencies]
     }
