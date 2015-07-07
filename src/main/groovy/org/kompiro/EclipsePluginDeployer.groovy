@@ -12,7 +12,9 @@ import java.nio.file.Paths
 @Slf4j
 class EclipsePluginDeployer {
     static final String ECLIPSE_BASE = '/Applications/Eclipse.app/Contents/Eclipse'
-    static Path GENERATE_PATH = Paths.get('/tmp/','generated')
+    static final String DEPLOY_URL = 'http://nexus.kompiro.org/content/repositories/thirdparty/'
+    static final String REPOSITORY_ID = 'nexus.kompiro.org'
+    static final Path GENERATE_PATH = Paths.get('/tmp/','generated')
 
     PomGenerator pomGenerator = new PomGenerator()
     DeployShGenerator bashGenerator
@@ -25,9 +27,9 @@ class EclipsePluginDeployer {
         log.info("target eclipse : {}",eclipseBase)
         this.plugins = new EclipsePlugins(eclipseBase)
         this.generatePath = generatePath
-        def pluginsPath = Paths.get(EclipsePluginDeployer.ECLIPSE_BASE,'plugins')
-        def deployUrl = new URL('http://nexus.kompiro.org/content/repositories/thirdparty/')
-        def repositoryId = 'nexus.kompiro.org'
+        def pluginsPath = Paths.get(ECLIPSE_BASE,'plugins')
+        def deployUrl = new URL(DEPLOY_URL)
+        def repositoryId = REPOSITORY_ID
         this.bashGenerator = new DeployShGenerator(pluginsPath,deployUrl,repositoryId)
     }
 
