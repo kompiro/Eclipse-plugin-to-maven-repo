@@ -1,8 +1,11 @@
 package org.kompiro
 
+import groovy.util.logging.Slf4j
+
 /**
  * Created by kompiro on 2015/07/06.
  */
+@Slf4j
 class EclipsePlugins {
 
     String base

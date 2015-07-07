@@ -20,13 +20,13 @@ class AntlrTest extends spock.lang.Specification{
         bundles.childCount == 1
         def bundle = bundles.bundle(0)
         bundle.ID().text == 'javax.annotation'
-        bundle.bundle_version().version_range().VERSION()[0].text == '1.1.0'
+        bundle.bundle_options().bundle_version()[0].version_range().VERSION()[0].text == '1.1.0'
     }
 
     def "parse multi bundles" () {
         given:
-        def actual_text = "javax.annotation;bundle-version=\"1.1.0\";resolution:=optional;visibility:=reexport," +
-                "javax.inject;bundle-version=\"1.0.0\";resolution:=optional;visibility:=reexport"
+        def actual_text = 'javax.annotation;bundle-version="1.1.0";resolution:=optional;visibility:=reexport,' +
+                'javax.inject;bundle-version="1.0.0";resolution:=optional;visibility:=reexport'
         def stream = new ANTLRInputStream(actual_text)
         def lexer = new BundleDependencyLexer(stream)
         def tokens = new CommonTokenStream(lexer)
@@ -37,7 +37,7 @@ class AntlrTest extends spock.lang.Specification{
         bundles.bundle().size() == 2
         def bundle = bundles.bundle(1)
         bundle.ID().text == 'javax.inject'
-        bundle.bundle_version().version_range().text == '1.0.0'
+        bundle.bundle_options().bundle_version()[0].version_range().text == '1.0.0'
     }
 
     def "parse version range" () {
@@ -55,6 +55,6 @@ class AntlrTest extends spock.lang.Specification{
         bundles.bundle().size() == 3
         def bundle = bundles.bundle(0)
         bundle.ID().text == 'org.eclipse.osgi'
-        bundle.bundle_version().version_range().text == '[3.7.0,4.0.0)'
+        bundle.bundle_options().bundle_version()[0].version_range().text == '[3.7.0,4.0.0)'
     }
 }

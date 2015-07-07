@@ -5,7 +5,7 @@ package org.kompiro
  */
 class EclipsePluginsTest extends spock.lang.Specification {
 
-    def sut = new EclipsePlugins(EclipsePluginDeployer.ECLIPCE_BASE)
+    def sut = new EclipsePlugins(EclipsePluginDeployer.ECLIPSE_BASE)
 
     def "valid path has plugins directories"() {
         expect:
