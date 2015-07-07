@@ -30,6 +30,7 @@ class EclipsePlugin {
 
     String name
     String version
+    String fileVersion
     List<Require> dependencies = [];
     Path pluginPath
 
@@ -39,7 +40,10 @@ class EclipsePlugin {
         def manifest = jarFile.getManifest()
         def main = manifest.getMainAttributes()
         this.name = main.getValue("Bundle-SymbolicName").split(';')[0]
-        this.version = main.getValue("Bundle-Version")
+        def bundleVersion = main.getValue("Bundle-Version")
+        def lastPeriod = bundleVersion.lastIndexOf('.')
+        this.version = bundleVersion.substring(0,lastPeriod)
+        this.fileVersion = bundleVersion
         def depends = main.getValue("Require-Bundle")
         parseDependencies(depends)
 
@@ -52,7 +56,10 @@ class EclipsePlugin {
                 version: it.version
             ]
         }
-        return [name: name, version: version, dependencies: binding_dependencies]
+        return [name: name,
+                version: version,
+                fileVersion: fileVersion,
+                dependencies: binding_dependencies]
     }
 
     def parseDependencies(String depends) {

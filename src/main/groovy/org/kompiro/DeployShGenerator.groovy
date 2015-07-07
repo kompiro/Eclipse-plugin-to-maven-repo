@@ -17,8 +17,8 @@ class DeployShGenerator {
 mvn org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy-file \\\\
   -Durl=${deployURL} \\\\
   -DrepositoryId=${repositoryId} \\\\
-  -Dfile=${pluginsDir}/${name}_${version}.jar \\\\
-  -Dsources=${pluginsDir}/${name}.source_${version}.jar \\\\
+  -Dfile=${pluginsDir}/${name}_${fileVersion}.jar \\\\
+  -Dsources=${pluginsDir}/${name}.source_${fileVersion}.jar \\\\
   -DpomFile=${name}_pom.xml
 '''
 

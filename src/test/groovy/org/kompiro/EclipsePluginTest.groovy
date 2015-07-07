@@ -16,7 +16,8 @@ class EclipsePluginTest extends spock.lang.Specification {
 
     def "version" (){
         expect:
-        sut.version == '3.11.0.v20150405-1723'
+        sut.version == '3.11.0'
+        sut.fileVersion == '3.11.0.v20150405-1723'
     }
 
     def "dependenies" (){
