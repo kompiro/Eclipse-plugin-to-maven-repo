@@ -8,7 +8,7 @@ bundles : bundle (',' bundle)*;
 bundle : ID bundle_options;
 ID : ALPHA (ALPHA | DIGIT | PERIOD)* ;
 WS : [ \t\n\r]+ -> skip;
-bundle_options : (';' (bundle_version | resolution | visibility)?)*;
+bundle_options : (';' (bundle_version | resolution | visibility | x_installation)?)*;
 bundle_version : 'bundle-version="' version_range '"';
 version_range :  (('[' | '(') VERSION ',' VERSION (')' | ']') )
 |  VERSION  ;
@@ -18,6 +18,8 @@ resolution : 'resolution' assign '"'? optional '"'?;
 optional : 'optional' ;
 visibility : 'visibility' assign '"'? reexport '"'?;
 reexport : 'reexport' ;
+x_installation : 'x-installation' assign '"'? greedy '"'?;
+greedy : 'greedy' ;
 fragment
 ALPHA : [a-zA-Z];
 fragment

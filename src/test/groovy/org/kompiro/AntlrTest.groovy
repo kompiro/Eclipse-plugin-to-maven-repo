@@ -57,4 +57,22 @@ class AntlrTest extends spock.lang.Specification{
         bundle.ID().text == 'org.eclipse.osgi'
         bundle.bundle_options().bundle_version()[0].version_range().text == '[3.7.0,4.0.0)'
     }
+
+    def 'support x-installation' () {
+        given:
+        def actual_text = 'org.eclipse.core.runtime;resolution:="optional";x-installation:="greedy";' +
+                'bundle-version="[3.5.0,4.0.0)"'
+        def stream = new ANTLRInputStream(actual_text)
+        def lexer = new BundleDependencyLexer(stream)
+        def tokens = new CommonTokenStream(lexer)
+        def parser = new BundleDependencyParser(tokens)
+        when:
+        def bundles = parser.bundles()
+        then:
+        bundles.bundle().size() == 1
+        def bundle = bundles.bundle(0)
+        bundle.ID().text == 'org.eclipse.core.runtime'
+        bundle.bundle_options().bundle_version()[0].version_range().text == '[3.5.0,4.0.0)'
+
+    }
 }
