@@ -21,7 +21,7 @@ class EclipsePlugin {
         String name
         String version
 
-        Require(String name,String version){
+        Require(String name, String version) {
             this.name = name
             this.version = version
         }
@@ -34,7 +34,7 @@ class EclipsePlugin {
     List<Require> dependencies = [];
     Path pluginPath
 
-    EclipsePlugin(Path pluginPath){
+    EclipsePlugin(Path pluginPath) {
         this.pluginPath = pluginPath
         def jarFile = new JarFile(pluginPath.toFile())
         def manifest = jarFile.getManifest()
@@ -42,7 +42,7 @@ class EclipsePlugin {
         this.name = main.getValue("Bundle-SymbolicName").split(';')[0]
         def bundleVersion = main.getValue("Bundle-Version")
         def lastPeriod = bundleVersion.lastIndexOf('.')
-        this.version = bundleVersion.substring(0,lastPeriod)
+        this.version = bundleVersion.substring(0, lastPeriod)
         this.fileVersion = bundleVersion
         def depends = main.getValue("Require-Bundle")
         parseDependencies(depends)
@@ -52,18 +52,18 @@ class EclipsePlugin {
     def binding() {
         def binding_dependencies = dependencies.collect {
             [
-                name   : it.name,
-                version: it.version
+                    name   : it.name,
+                    version: it.version
             ]
         }
-        return [name: name,
-                version: version,
-                fileVersion: fileVersion,
+        return [name        : name,
+                version     : version,
+                fileVersion : fileVersion,
                 dependencies: binding_dependencies]
     }
 
     def parseDependencies(String depends) {
-        if(depends == null) return
+        if (depends == null) return
         def stream = new ANTLRInputStream(depends)
         def lexer = new BundleDependencyLexer(stream)
         def tokens = new CommonTokenStream(lexer)
@@ -71,7 +71,7 @@ class EclipsePlugin {
         parser.bundles().bundle().each {
             def target_name = it.ID().text
             def bundle_version = it.bundle_options().bundle_version()[0].version_range().text
-            def require = new Require(target_name,bundle_version)
+            def require = new Require(target_name, bundle_version)
             dependencies.add(require)
         }
     }

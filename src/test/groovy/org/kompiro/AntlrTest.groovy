@@ -1,14 +1,14 @@
 package org.kompiro
 
-import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.ANTLRInputStream
+import org.antlr.v4.runtime.CommonTokenStream
 
 /**
  * Created by kompiro on 2015/07/06.
  */
-class AntlrTest extends spock.lang.Specification{
+class AntlrTest extends spock.lang.Specification {
 
-    def "parse single bundle" () {
+    def "parse single bundle"() {
         given:
         def stream = new ANTLRInputStream('javax.annotation;bundle-version="1.1.0";')
         def lexer = new BundleDependencyLexer(stream)
@@ -23,7 +23,7 @@ class AntlrTest extends spock.lang.Specification{
         bundle.bundle_options().bundle_version()[0].version_range().VERSION()[0].text == '1.1.0'
     }
 
-    def "parse multi bundles" () {
+    def "parse multi bundles"() {
         given:
         def actual_text = 'javax.annotation;bundle-version="1.1.0";resolution:=optional;visibility:=reexport,' +
                 'javax.inject;bundle-version="1.0.0";resolution:=optional;visibility:=reexport'
@@ -40,7 +40,7 @@ class AntlrTest extends spock.lang.Specification{
         bundle.bundle_options().bundle_version()[0].version_range().text == '1.0.0'
     }
 
-    def "parse version range" () {
+    def "parse version range"() {
         given:
         def actual_text = 'org.eclipse.osgi;bundle-version="[3.7.0,4.0.0)";visibility:=reexport,' +
                 'org.eclipse.equinox.common;bundle-version="[3.7.0,4.0.0)";visibility:=reexport,' +
@@ -58,7 +58,7 @@ class AntlrTest extends spock.lang.Specification{
         bundle.bundle_options().bundle_version()[0].version_range().text == '[3.7.0,4.0.0)'
     }
 
-    def 'support x-installation' () {
+    def 'support x-installation'() {
         given:
         def actual_text = 'org.eclipse.core.runtime;resolution:="optional";x-installation:="greedy";' +
                 'bundle-version="[3.5.0,4.0.0)"'

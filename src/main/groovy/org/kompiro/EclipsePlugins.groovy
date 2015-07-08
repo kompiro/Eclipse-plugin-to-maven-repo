@@ -14,17 +14,17 @@ class EclipsePlugins {
 
     EclipsePlugins(String eclipseBase) {
         this.base = eclipseBase
-        this.pluginPath =  new File(eclipseBase, "plugins")
+        this.pluginPath = new File(eclipseBase, "plugins")
         valid = pluginPath.exists()
     }
 
-    def list(){
+    def list() {
         return pluginPath.listFiles()
     }
 
     def get(String pluginName) {
         assert pluginName != ""
-        def candidates = list().findAll {it.name.startsWith("${pluginName}_")}
+        def candidates = list().findAll { it.name.startsWith("${pluginName}_") }
         assert candidates.size() == 1
         def pluginPath = candidates.get(0).toPath()
         return new EclipsePlugin(pluginPath)

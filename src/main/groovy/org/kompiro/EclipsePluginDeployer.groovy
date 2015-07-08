@@ -14,7 +14,7 @@ class EclipsePluginDeployer {
     static final String ECLIPSE_BASE = '/Applications/Eclipse.app/Contents/Eclipse'
     static final String DEPLOY_URL = 'http://nexus.kompiro.org/content/repositories/thirdparty/'
     static final String REPOSITORY_ID = 'nexus.kompiro.org'
-    static final Path GENERATE_PATH = Paths.get('/tmp/','generated')
+    static final Path GENERATE_PATH = Paths.get('/tmp/', 'generated')
 
     PomGenerator pomGenerator = new PomGenerator()
     DeployShGenerator bashGenerator
@@ -23,19 +23,19 @@ class EclipsePluginDeployer {
     Path deployShPath
     def generatedPlugin = []
 
-    EclipsePluginDeployer(String eclipseBase, Path generatePath){
-        log.info("target eclipse : {}",eclipseBase)
+    EclipsePluginDeployer(String eclipseBase, Path generatePath) {
+        log.info("target eclipse : {}", eclipseBase)
         this.plugins = new EclipsePlugins(eclipseBase)
         this.generatePath = generatePath
-        def pluginsPath = Paths.get(ECLIPSE_BASE,'plugins')
+        def pluginsPath = Paths.get(ECLIPSE_BASE, 'plugins')
         def deployUrl = new URL(DEPLOY_URL)
         def repositoryId = REPOSITORY_ID
-        this.bashGenerator = new DeployShGenerator(pluginsPath,deployUrl,repositoryId)
+        this.bashGenerator = new DeployShGenerator(pluginsPath, deployUrl, repositoryId)
     }
 
     def deploy(String pluginName) {
         log.info "start Eclipse Plugin Deployer"
-        if(!Files.exists(generatePath)) {
+        if (!Files.exists(generatePath)) {
             Files.createDirectories(generatePath)
         }
         deployShPath = generatePath.resolve('deploy.sh')
@@ -45,7 +45,7 @@ class EclipsePluginDeployer {
     }
 
     def generate(EclipsePlugin plugin) {
-        if(generatedPlugin.contains(plugin.name)) return
+        if (generatedPlugin.contains(plugin.name)) return
         log.debug("Generate : $plugin.name")
         generatedPlugin.add(plugin.name)
         deployShPath.append("sh ${plugin.name}.sh\n")
@@ -66,7 +66,7 @@ class EclipsePluginDeployer {
         deployShellPath.write(generated)
     }
 
-    def generatePom(EclipsePlugin plugin){
+    def generatePom(EclipsePlugin plugin) {
         def pluginPomPath = generatePath.resolve("${plugin.name}_pom.xml")
         log.debug("Generate pom : $pluginPomPath")
         def binding = plugin.binding()
@@ -75,7 +75,7 @@ class EclipsePluginDeployer {
     }
 
     static def main(String[] args) {
-        def deployer = new EclipsePluginDeployer(ECLIPSE_BASE,GENERATE_PATH)
+        def deployer = new EclipsePluginDeployer(ECLIPSE_BASE, GENERATE_PATH)
         deployer.deploy('org.eclipse.uml2.uml')
     }
 }
